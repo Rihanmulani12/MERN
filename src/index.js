@@ -9,7 +9,15 @@ dotenv.config({
 
 
 
-connectDB();
+connectDB().then(()=>{
+    app.listen(process.env.PORT || 8000 , ()=>{
+        console.log(`severr is running ${process.env.PORT}`)
+    })
+}).catch((error) => {
+    console.log("mongo db failed" , error);
+})
+    
+
 
 
 
