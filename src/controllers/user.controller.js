@@ -18,7 +18,7 @@ const registerUser =  asyncHandler( async (req, res) =>{
 
 
    const {fullname , email , username , password} = req.body
-   console.log("email:" , email );
+   //console.log("email:" , email );
 
     if(
        [fullname , email , username , password].some((field) =>{
@@ -28,13 +28,15 @@ const registerUser =  asyncHandler( async (req, res) =>{
        throw new ApiError(400, "all fileds are requried")
     }
    
-   const existedUser = User.findOne({
+   const existedUser = await User.findOne({
         $or : [{ username }, { email }]
     })
 
     if(existedUser){
         throw new ApiError(409 , "user with email or username")
     }
+
+    //console.log(req.files);
 
    const avatarLocalPath = req.files?.avatar[0]?.path;
 
